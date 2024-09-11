@@ -103,7 +103,7 @@ configure_environment() {
 create_wallet() {
     echo -e "\033[33m创建钱包...\033[0m"
 
-    cd packages/cli || { echo -e "\033[31m无法进入 packages/cli 目录。\033[0m"; exit 1; }
+    cd ~/cat-token-box/packages/cli || { echo -e "\033[31m无法进入 packages/cli 目录。\033[0m"; exit 1; }
 
     echo -e "\033[34m配置 config.json 文件...\033[0m"
     cat <<EOF > config.json
