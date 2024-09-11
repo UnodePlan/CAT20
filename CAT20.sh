@@ -94,6 +94,9 @@ configure_environment() {
     install_node_and_yarn
     clone_and_build
     run_docker_containers
+
+    echo -e "\033[32m环境配置完成。\033[0m"
+    main_menu
 }
 
 # 创建钱包
@@ -121,6 +124,7 @@ EOF
     yarn cli wallet create
 
     echo -e "\033[32m钱包创建完成。\033[0m"
+    main_menu
 }
 
 # 执行单次 mint 命令
@@ -133,6 +137,7 @@ mint() {
     yarn cli mint -i 45ee725c2c5993b3e4d308842d87e973bf1951f5f7a804b21e4dd964ecd12d6b_0 5
 
     echo -e "\033[32mMint 操作完成。\033[0m"
+    main_menu
 }
 
 # 批量执行 mint 命令
@@ -154,12 +159,14 @@ batch_mint() {
     done
 
     echo -e "\033[32m批量铸造完成。\033[0m"
+    main_menu
 }
 
 # 查看钱包文件
 view_wallet_file() {
     echo -e "\033[33m查看钱包文件...\033[0m"
     cat /root/cat-token-box/packages/cli/wallet.json
+    main_menu
 }
 
 # 查看是否到账和节点同步情况
@@ -167,6 +174,7 @@ check_balances_and_sync() {
     echo -e "\033[33m查看是否到账和节点同步情况...\033[0m"
     cd /root/cat-token-box/packages/cli || { echo -e "\033[31m无法进入目录 /root/cat-token-box/packages/cli。\033[0m"; exit 1; }
     yarn cli wallet balances
+    main_menu
 }
 
 # 主菜单
@@ -190,13 +198,15 @@ main_menu() {
     1) configure_environment ;;
     2) create_wallet ;;
     3) mint ;;
-    4) batch_mint ;;
+     4) batch_mint ;;
     5) view_wallet_file ;;
     6) check_balances_and_sync ;;
-    *) echo -e "\033[31m无效的选项。\033[0m" ;;
+    *) echo -e "\033[31m无效的选项。\033[0m" ; main_menu ;;
     esac
 }
 
-# 确保以 root 身份运行并显示主菜单
+# 确保脚本以 root 身份运行
 check_root
+
+# 显示主菜单
 main_menu
