@@ -104,7 +104,7 @@ configure_environment() {
 create_wallet() {
     echo -e "\033[33mCreating wallet...\033[0m"
 
-    cd ~/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory ~/cat-token-box/packages/cli.\033[0m"; exit 1; }
+    cd /root/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory ~/cat-token-box/packages/cli.\033[0m"; exit 1; }
 
     echo -e "\033[34mConfiguring config.json file...\033[0m"
     cat <<EOF > config.json
@@ -133,7 +133,7 @@ EOF
 modify_gas_fee_rate() {
     echo -e "\033[33mModifying Gas fee rate...\033[0m"
 
-    cd ~/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory ~/cat-token-box/packages/cli.\033[0m"; exit 1; }
+    cd /root/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory ~/cat-token-box/packages/cli.\033[0m"; exit 1; }
 
     # Read current maxFeeRate value
     local current_fee_rate
@@ -159,7 +159,7 @@ modify_gas_fee_rate() {
 mint() {
     echo -e "\033[33mExecuting single mint command...\033[0m"
 
-    cd packages/cli || { echo -e "\033[31mUnable to enter directory packages/cli.\033[0m"; exit 1; }
+    cd /root/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory packages/cli.\033[0m"; exit 1; }
 
     echo -e "\033[34mExecuting mint command...\033[0m"
     yarn cli mint -i 45ee725c2c5993b3e4d308842d87e973bf1951f5f7a804b21e4dd964ecd12d6b_0 5
@@ -173,7 +173,7 @@ mint() {
 batch_mint() {
     echo -e "\033[33mBatch minting...\033[0m"
 
-    cd packages/cli || { echo -e "\033[31mUnable to enter directory packages/cli.\033[0m"; exit 1; }
+    cd /root/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory packages/cli.\033[0m"; exit 1; }
 
     read -p "Enter number of mints: " count
     if ! [[ "$count" =~ ^[0-9]+$ ]]; then
@@ -204,7 +204,7 @@ view_wallet_file() {
 # View wallet address
 view_wallet_address() {
     echo -e "\033[33mViewing wallet address...\033[0m"
-    cd ~/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory ~/cat-token-box/packages/cli.\033[0m"; exit 1; }
+    cd /root/cat-token-box/packages/cli || { echo -e "\033[31mUnable to enter directory ~/cat-token-box/packages/cli.\033[0m"; exit 1; }
     yarn cli wallet address
     read -n 1 -s -r -p "Press any key to return to the main menu..."
     main_menu
