@@ -170,6 +170,16 @@ batch_mint() {
 view_wallet_file() {
     echo -e "\033[33m查看钱包文件...\033[0m"
     cat /root/cat-token-box/packages/cli/wallet.json
+    echo -e "\n"  # 添加换行符
+    read -n 1 -s -r -p "按任意键返回主菜单..."
+    main_menu
+}
+
+# 查看钱包地址
+view_wallet_address() {
+    echo -e "\033[33m查看钱包地址...\033[0m"
+    cd /root/cat-token-box/packages/cli || { echo -e "\033[31m无法进入目录 /root/cat-token-box/packages/cli。\033[0m"; exit 1; }
+    yarn cli wallet address
     read -n 1 -s -r -p "按任意键返回主菜单..."
     main_menu
 }
@@ -194,7 +204,7 @@ main_menu() {
     clear
     echo -e "\033[36m=======================================================================\033[0m"
     echo -e "\033[36m=======================================================================\033[0m"
-    echo -e "\033[32m一键式脚本：配置环境、创建钱包、执行 mint 命令、批量铸造、查看钱包文件和检查余额及同步情况\033[0m"
+    echo -e "\033[32m一键式脚本：配置环境、创建钱包、执行 mint 命令、批量铸造、查看钱包文件、查看钱包地址和检查余额及同步情况\033[0m"
     echo -e "\033[36m=======================================================================\033[0m"
     echo -e "\033[36m=======================================================================\033[0m"
     echo -e "\033[33m请选择一个选项：\033[0m"
@@ -203,9 +213,10 @@ main_menu() {
     echo "3. 执行单次 mint 命令"
     echo "4. 批量铸造"
     echo "5. 查看钱包文件"
-    echo "6. 查看是否到账和节点同步情况"
-    echo "7. 退出脚本"
-    read -p "输入选项 (1-7): " OPTION
+    echo "6. 查看钱包地址"
+    echo "7. 查看是否到账和节点同步情况"
+    echo "8. 退出脚本"
+    read -p "输入选项 (1-8): " OPTION
 
     case $OPTION in
     1) configure_environment ;;
@@ -213,8 +224,9 @@ main_menu() {
     3) mint ;;
     4) batch_mint ;;
     5) view_wallet_file ;;
-    6) check_balances_and_sync ;;
-    7) exit_script ;;
+    6) view_wallet_address ;;
+    7) check_balances_and_sync ;;
+    8) exit_script ;;
     *) echo -e "\033[31m无效的选项。\033[0m" ; main_menu ;;
     esac
 }
