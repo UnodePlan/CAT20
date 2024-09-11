@@ -129,6 +129,32 @@ EOF
     main_menu
 }
 
+# 修改 Gas 费用
+modify_gas_fee_rate() {
+    echo -e "\033[33m修改 Gas 费用...\033[0m"
+
+    cd ~/cat-token-box/packages/cli || { echo -e "\033[31m无法进入目录 ~/cat-token-box/packages/cli。\033[0m"; exit 1; }
+
+    # 读取当前的 maxFeeRate 值
+    local current_fee_rate
+    current_fee_rate=$(jq '.maxFeeRate' config.json)
+
+    echo -e "\033[34m当前 Gas 费用为: $current_fee_rate\033[0m"
+
+    read -p "请输入新的 Gas 费用: " new_fee_rate
+    if ! [[ "$new_fee_rate" =~ ^[0-9]+$ ]]; then
+        echo -e "\033[31m请输入一个有效的数字。\033[0m"
+        return
+    fi
+
+    # 修改 config.json 中的 maxFeeRate
+    jq --argjson feeRate "$new_fee_rate" '.maxFeeRate = $feeRate' config.json > tmp.json && mv tmp.json config.json
+
+    echo -e "\033[32mGas 费用已更新为 $new_fee_rate。\033[0m"
+    read -n 1 -s -r -p "按任意键返回主菜单..."
+    main_menu
+}
+
 # 执行单次 mint 命令
 mint() {
     echo -e "\033[33m执行单次 mint 命令...\033[0m"
@@ -178,7 +204,7 @@ view_wallet_file() {
 # 查看钱包地址
 view_wallet_address() {
     echo -e "\033[33m查看钱包地址...\033[0m"
-    cd /root/cat-token-box/packages/cli || { echo -e "\033[31m无法进入目录 /root/cat-token-box/packages/cli。\033[0m"; exit 1; }
+    cd ~/cat-token-box/packages/cli || { echo -e "\033[31m无法进入目录 ~/cat-token-box/packages/cli。\033[0m"; exit 1; }
     yarn cli wallet address
     read -n 1 -s -r -p "按任意键返回主菜单..."
     main_menu
@@ -195,7 +221,7 @@ check_balances_and_sync() {
 
 # 退出脚本
 exit_script() {
-    echo -e "\033[32m退出脚本。\033[0m"
+    echo -e "\033[32m退出脚本...\033[0m"
     exit 0
 }
 
@@ -204,29 +230,31 @@ main_menu() {
     clear
     echo -e "\033[36m=======================================================================\033[0m"
     echo -e "\033[36m=======================================================================\033[0m"
-    echo -e "\033[32m一键式脚本：配置环境、创建钱包、执行 mint 命令、批量铸造、查看钱包文件、查看钱包地址和检查余额及同步情况\033[0m"
+    echo -e "\033[32m一键式脚本：配置环境、创建钱包、执行 mint 命令、批量铸造、查看钱包文件、查看钱包地址、检查余额及同步情况、修改 Gas 费用和退出脚本\033[0m"
     echo -e "\033[36m=======================================================================\033[0m"
     echo -e "\033[36m=======================================================================\033[0m"
     echo -e "\033[33m请选择一个选项：\033[0m"
     echo "1. 配置环境"
     echo "2. 创建钱包"
-    echo "3. 执行单次 mint 命令"
-    echo "4. 批量铸造"
-    echo "5. 查看钱包文件"
-    echo "6. 查看钱包地址"
-    echo "7. 查看是否到账和节点同步情况"
-    echo "8. 退出脚本"
-    read -p "输入选项 (1-8): " OPTION
+    echo "3. 修改 Gas 费用"
+    echo "4. 铸造"
+    echo "5. 批量铸造"
+    echo "6. 查看钱包文件"
+    echo "7. 查看钱包地址"
+    echo "8. 查看是否到账和节点同步情况"
+    echo "9. 退出脚本"
+    read -p "输入选项 (1-9): " OPTION
 
     case $OPTION in
     1) configure_environment ;;
     2) create_wallet ;;
-    3) mint ;;
-    4) batch_mint ;;
-    5) view_wallet_file ;;
-    6) view_wallet_address ;;
-    7) check_balances_and_sync ;;
-    8) exit_script ;;
+    3) modify_gas_fee_rate ;;
+    4) mint ;;
+    5) batch_mint ;;
+    6) view_wallet_file ;;
+    7) view_wallet_address ;;
+    8) check_balances_and_sync ;;
+    9) exit_script ;;
     *) echo -e "\033[31m无效的选项。\033[0m" ; main_menu ;;
     esac
 }
