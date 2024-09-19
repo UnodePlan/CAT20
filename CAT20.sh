@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Get current path
+current_path=$(pwd)
+
 # Check if running as root
 check_root() {
     if [ "$(id -u)" -ne 0 ]; then
@@ -11,6 +14,7 @@ check_root() {
 # Change directory with error handling
 cd_with_error_handling() {
     local dir="$1"
+    cd "$current_path" || exit 1
     cd "$dir" || { echo -e "\033[31mUnable to enter directory $dir.\033[0m"; exit 1; }
 }
 
