@@ -67,7 +67,7 @@ clone_and_build() {
 run_docker_containers() {
     echo -e "\033[33mRunning Docker containers...\033[0m"
 
-    cd_with_error_handling "cat-token-box/packages/tracker"
+    cd_with_error_handling "./cat-token-box/packages/tracker"
 
     echo -e "\033[34mSetting permissions...\033[0m"
     chmod 777 docker/data docker/pgdata
@@ -109,7 +109,7 @@ configure_environment() {
 create_wallet() {
     echo -e "\033[33mCreating wallet...\033[0m"
 
-    cd_with_error_handling "cat-token-box/packages/cli"
+    cd_with_error_handling "./cat-token-box/packages/cli"
 
     echo -e "\033[34mConfiguring config.json file...\033[0m"
     cat <<EOF > config.json
@@ -138,7 +138,7 @@ EOF
 modify_gas_fee_rate() {
     echo -e "\033[33mModifying Gas fee rate...\033[0m"
 
-    cd_with_error_handling "cat-token-box/packages/cli"
+    cd_with_error_handling "./cat-token-box/packages/cli"
 
     local current_fee_rate
     current_fee_rate=$(jq '.maxFeeRate' config.json)
@@ -162,7 +162,7 @@ modify_gas_fee_rate() {
 mint() {
     echo -e "\033[33mExecuting single mint command...\033[0m"
 
-    cd_with_error_handling "cat-token-box/packages/cli"
+    cd_with_error_handling "./cat-token-box/packages/cli"
 
     echo -e "\033[34mExecuting mint command...\033[0m"
     yarn cli mint -i 45ee725c2c5993b3e4d308842d87e973bf1951f5f7a804b21e4dd964ecd12d6b_0 5
@@ -176,7 +176,7 @@ mint() {
 batch_mint() {
     echo -e "\033[33mBatch minting...\033[0m"
 
-    cd_with_error_handling "cat-token-box/packages/cli"
+    cd_with_error_handling "./cat-token-box/packages/cli"
 
     read -p "Enter number of mints: " count
     if ! [[ "$count" =~ ^[0-9]+$ ]]; then
@@ -198,7 +198,7 @@ batch_mint() {
 # View wallet file
 view_wallet_file() {
     echo -e "\033[33mViewing wallet file...\033[0m"
-    cat "cat-token-box/packages/cli/wallet.json"
+    cat "./cat-token-box/packages/cli/wallet.json"
     echo -e "\n"
     read -n 1 -s -r -p "Press any key to return to the main menu..."
     main_menu
@@ -207,7 +207,7 @@ view_wallet_file() {
 # View wallet address
 view_wallet_address() {
     echo -e "\033[33mViewing wallet address...\033[0m"
-    cd_with_error_handling "cat-token-box/packages/cli"
+    cd_with_error_handling "./cat-token-box/packages/cli"
     yarn cli wallet address
     read -n 1 -s -r -p "Press any key to return to the main menu..."
     main_menu
@@ -216,7 +216,7 @@ view_wallet_address() {
 # Check balances and sync status
 check_balances_and_sync() {
     echo -e "\033[33mChecking balances and sync status...\033[0m"
-    cd_with_error_handling "cat-token-box/packages/cli"
+    cd_with_error_handling "./cat-token-box/packages/cli"
     yarn cli wallet balances
     read -n 1 -s -r -p "Press any key to return to the main menu..."
     main_menu
